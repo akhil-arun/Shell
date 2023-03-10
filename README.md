@@ -184,14 +184,4 @@ message is printed or after there is a parsing error detected. This is done
 beacuse the shell prints the completion message of a background job before the 
 completion message of a foreground process.
 
-# References
-1. https://man7.org/linux/man-pages/man2/dup.2.html1
-2. https://stackovehttps://linuxhint.com/exec_linux_system_call_c/rflow.com/ques
-tions/11198604/c-split-string-into-an-array-of-stringst 
-3. https://stackoverflowcomquestions43283418make-multiple-pipe-with-waiting-for-
-return-code-of-each-process
-4. https://stackoverflow.com/questions/12824848/placing-a-process-in-the-backgro
-und-in-c
-5. https://www.geeksforgeeks.org/what-is-linked-list/
-6. https://stackoverflowcomquestions60220163why-cant-my-dynamically-allocated-ar
-ray-be-accessed-outside-of-its-function
+
