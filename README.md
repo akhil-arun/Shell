@@ -98,23 +98,23 @@ job->redirect = -1; job->numCommands = 2;
 ```
 
 **checking for parsing errors:**
-Function checkParsingError() is the "main" function for checking for these kind
+Function `checkParsingError()` is the "main" function for checking for these kind
 of errors, it calls helper functions to determine if the input is invalid.
-All of the helpers and the main will return FAILURE(1) to indicate there is a
-parsing error or SUCCESS (0) 
+All of the helpers and the main will return `FAILURE(1)` to indicate there is a
+parsing error or `SUCCESS (0)` 
 
-Function checkAtBetweenPipes() checks for errors if there are pipes. For
+Function `checkAtBetweenPipes()` checks for errors if there are pipes. For
 example, if there is a & before a |, that is an invalid command because &
 can only be the last command. This is done by iterating through the values in 
 the job->pipes array and comparing them to the other values in the job struct.
 
-Function openableFile() checks if a file is openable given that the input
-has asked for output redirecton. It uses the open() function, to see if the
+Function `openableFile()` checks if a file is openable given that the input
+has asked for output redirecton. It uses the `open()` function, to see if the
 file can be written to; open() will return -1 if the specified arguments to the
 function cannot be performed.
 
 # Regular commands with piping and/or output redirection
-The function that implements the regular commands is the executeCommands() 
+The function that implements the regular commands is the `executeCommands()` 
 function.
 
 **Note:**
@@ -127,14 +127,14 @@ For a command that does not have piping or ouput redirection, the command to be
 executed will be located at the first index of the args array, and the array
 contains all the remaining arguments. So, the function simply forks once
 and runs excevp(args[0], args) in the child process. The exit value is retrieved
-using the helper function getStatus that uses waitpid() in its blocking form
+using the helper function getStatus that uses `waitpid()` in its blocking form
 to retreive the execute value of the given command. If execvp fails, an error 
 message will be printed, and the child will exit with a value of 1.
 
 **output redirection:**
-There is a helper function checkOuputRedirect() to determine if the output of 
-the command should be redirected to a file. If job->redirect != -1 or 
-job->append != -1, then a new file descriptor will be opened by the open() 
+There is a helper function `checkOuputRedirect()` to determine if the output of 
+the command should be redirected to a file. If `job->redirect != -1` or 
+`job->append != -1`, then a new file descriptor will be opened by the `open()` 
 function. For the open function, the truncate, create, and write only flags are 
 used if the < character is specified. If the << operator is specified then 
 instead of the truncate flag, the append flag is used instead. After creating 
@@ -142,18 +142,18 @@ the new file descriptor, dup2() is used in order to change standard output to
 the file. The newly created file descriptor is closed after calling dup2.
 
 **piping:**
-For piping we created three int fd[2] arrays, and called the pipe syscall 
+For piping we created three int `fd[2]` arrays, and called the pipe syscall 
 on each of these arrays. It is necessary to fork the number of times as there
 are number of commands. For example, if there are two pipes then it is required
 to fork three times. For each of the child processes, the relevant pipes have
-to be opened and closed. The function uses the job->numCommands to determine the
+to be opened and closed. The function uses the `job->numCommands` to determine the
 number of times the function has to fork. If it is the lastCommand in the job,
-then the checkOutputRedirect() function is called in the respective child
-process, and dup2(pipex[1], STDOUT_FILENO) will not be called. 
+then the `checkOutputRedirect()` function is called in the respective child
+process, and `dup2(pipex[1], STDOUT_FILENO)` will not be called. 
 The second child's execvp call will look like: 
-execvp(args[job->pipes[0] + 1], &args[job->pipes[0] + 1]);
+`execvp(args[job->pipes[0] + 1], &args[job->pipes[0] + 1]);`
 
-job->pipes[0] + 1 is the location after the first pipe. If there are 3 or 4 
+`job->pipes[0] + 1` is the location after the first pipe. If there are 3 or 4 
 execvp calls, it will look similar to the line of code above.
 
 # Background Processes
@@ -163,25 +163,25 @@ This is a linked list that contains the following members: pids array, status
 array, the user inputed cmd string, the number of commands, and a pointer to 
 the next background process.
 
-If job->background != -1, then the a new BackgroundProcess struct will be
-initialize by the newBackground() function. This function will use memcpy to
+If `job->background != -1`, then the a new BackgroundProcess struct will be
+initialize by the `newBackground()` function. This function will use memcpy to
 copy the pids and the status array into the respective members of this struct.
-The addNewBackround() function will add the new "node" to the linked list by
+The `addNewBackround()` function will add the new "node" to the linked list by
 traversing through the list until the next pointer of a specific background
 process is NULL.
 
 The checkBackground() function is used to check if a Background Process has 
 completed. The completion of a background process is checked by traversing
-through the linked list and calling the checkCompletion() function. This
-function calls waitpid() using WNOHANG, so it is non-blocking. If a command
+through the linked list and calling the `checkCompletion()` function. This
+function calls `waitpid()` using `WNOHANG`, so it is non-blocking. If a command
 in the process has finished, the pid for that command is set to -1. Once all the
 commands within a process are -1 that means the background process has 
 completed, and the exit status is printed. If a process has completed, then the 
-removeBackground() function is called. This function will replace the head to 
-head->next if the first node is removed, or it will set the previous->next = 
-removed->next.
+`removeBackground()` function is called. This function will replace the head to 
+`head->next` if the first node is removed, or it will set the `previous->next = 
+removed->next`.
 
-The checkbackground() function is run before the command completion
+The `checkbackground()` function is run before the command completion
 message is printed or after there is a parsing error detected. This is done
 beacuse the shell prints the completion message of a background job before the 
 completion message of a foreground process.
