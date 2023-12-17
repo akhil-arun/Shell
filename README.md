@@ -67,16 +67,16 @@ infinite loop.
 
 **pwd:**
 The pwd command prints the name of the current working directory. To implement 
-this part we created a helper function called pwdCommand(). All that was done 
-for this command was call the function getcwd(). This function is a syscall 
-that places the name of the current directory into a string (char *). The string 
+this part we created a helper function called `pwdCommand()`. All that was done 
+for this command was call the function `getcwd()`. This function is a syscall 
+that places the name of the current directory into a string (`char *`). The string 
 is printed after receiving the name of the directory.
 
 **cd:**
 The cd command allows for the user to change their current working directory. To
-implement ths part we created a helper function called cdCommand(). Essentially
+implement ths part we created a helper function called `cdCommand()`. Essentially
 what this function does is call the function chdir() with the new directory
-passed in as an argument. If chdir() returns 1, it means that the directory 
+passed in as an argument. If `chdir()` returns 1, it means that the directory 
 provided does not exist. As a result, we print an error message to indicate this
 problem. If chdir() returns 0, it changed the directory with no problems.
 
@@ -89,11 +89,13 @@ Essentially what this struct stores is the location of all the meta-characters
 in the args array as well the number of commands. The values of the members will
 be -1 if that specific meta character is not found.
 
-Example:              
+Example: 
+```
          0        1        2      3     4        5      6
 args: ["Echo", "Hello", "World", "|", "grep", "Hello", "&"]
 job->pipes = [3, -1, -1]; job->background = 6; job->append = -1; 
 job->redirect = -1; job->numCommands = 2;
+```
 
 **checking for parsing errors:**
 Function checkParsingError() is the "main" function for checking for these kind
