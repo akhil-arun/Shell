@@ -36,21 +36,21 @@ After getting the user input, the shell calls the getArgs() function to parse
 the command, and returns an array of strings (char * args[]). The main helper
 function that is responsible for this functionality is the parseCmd() function.
 
-The parseCmd() function essentially iterates through the cmd string character
+The `parseCmd()` function essentially iterates through the cmd string character
 by character. If any of these characters are encountered (' ', '<' , '|', '&' ),
 the function will check if the length of the current word is greater than zero.
 If the word length (arg_length) is greater than zero, then the word will be 
 added to the next index in the args array. This done by dynamically allocating
-space using malloc, and then using strcpy to copy the bytes into args[i] where
+space using malloc, and then using strcpy to copy the bytes into `args[i]` where
 i = the current index of the args array. In addition if any "meta" character is
 found, they will be added to the next index in the array. Arg_length will be
 set to 0, and this process will continue until the end of the cmd string is
 reached.
-'''
+```
 cmd = " echo Hello World|grep Hello<file
 Index:   0        1       2        3     4      5        6     7
 Args:["echo",  "Hello", "World",  "|", "grep", "Hello", "<", "file" ]
-'''
+```
 **Note:**
 Creating the args array is only done after checking if the command is pwd or
 exit because there is no need to initialize an array when there is only 
