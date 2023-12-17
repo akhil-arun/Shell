@@ -9,11 +9,11 @@ that the shell will execute.
 
 Below is a simple example of a command that a shell can execute, and the 
 corresponding completion message:
-
+```bash
 sshell@ucd$ echo Hello World  
 Hello World  
 + completed 'echo Hello World' [0]  
-
+```
 # Features: 
 1. Execution of user-supplied commands with arguments
 2. Built-in commands(cd, pwd, exit)
